@@ -1,0 +1,26 @@
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.5.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-tfdf/dist/tf-tfdf.min.js"></script>
+  <script>
+    (async () =>{
+      // Load the model.
+      ///const modelPath = 'http://localhost:8080/tfjs_GB_model/model.json';//path.resolve(__dirname, 'tfjs_GB_model', 'model.json');
+      // Tensorflow.js currently needs the absolute path to the model including the full origin.
+      const model = await tfdf.loadTFDFModel(".\\tfjs_GB_model\\GB_model.json");
+      const inputData = [
+          [0.587349],
+          [0.577747],
+          [0.386298],
+          [0.568199],
+          [0.647347],
+          [0.292985],
+          [0.654522],
+          [0.795029],
+          [0.630115]
+      ];
+      // Perform an inference
+      const inputTensor = tf.tensor(inputData).reshape([1, 9, 1]);
+      const result = await model.executeAsync(inputTensor);
+      // The result is a 6-dimensional vector, the first half may be ignored
+      result.print();
+    })();
+  </script>
